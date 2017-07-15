@@ -1,0 +1,9 @@
+This folder contains file to read the EMS server details (IP & port) and scope 
+from configuration files present in /opt/secmon/config directory
+
+- Fetches configurations from EMS at startup
+- Starts a server for handling EMS configurations
+- server which is a thread which handles notifications from consul's watch handler
+    and call the appropriate functions to update (add, update and delete) 
+    configurations for netflow plugin.
+

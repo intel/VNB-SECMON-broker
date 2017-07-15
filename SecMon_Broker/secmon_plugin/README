@@ -1,0 +1,52 @@
+SecMon plugin:
+--------------
+These plugins are dynamic libraries, which are loaded by SecMon Agent dynamically. These plugins filter received packets and forward the result to configured collectors. 
+
+It contains 3 plugins code 
+	- rawforward, 
+	- netflow & 
+	- sflow plugin. 
+
+Rawforward Plugin:
+------------------
+Rawforward Plugin support forwarding of packets towards the monitoring tools for traffic analysis. The packets are forwarded using UDP/Sflow encapsulation.
+
+NetFlow Plugin:
+---------------
+NetFlow Plugin supports the Netflow version 9 as one of the traffic monitoring and filtering feature. It is a flow exporter and create the flow records for the traffic coming towards it. The created flow records is sent to the NetFlow Collector machine for further analysis. Any Netflow v9 compliant collector can be used to collect the created Netflow v9 flow records.
+
+Sflow Plugin:
+-------------
+Sflow Plugin supports SFlow version 5 as a flow exporter. It encapsulates the monitored/filtered packets in SFlow datagram and send it to the SFlow Analyzer.
+
+All the three plugins supports 7 tuple filtering feature. The filtered traffic shall then forward towards monitoring tools machine. Following are the 7 tuple field for filtering;
+1.	Source IP Address
+2.	Destination IP Address
+3.	Protocol
+4.	Source L4 Port
+5.	Destination L4 Port
+6. 	Source MAC
+7.	Destination MAC
+
+
+This folder contains:
+
+include
+    contains common header files
+mk
+    contains common compilation flags
+
+netflow_plugin
+    contains netflow plugin code
+ 
+sflow_plugin
+    contains sflow plugin code
+
+rawforward_plugin
+    contains rawforward plugin code
+
+stubs
+    contains common stubs of client, plugin & handler
+
+utils
+    contains common utility functions

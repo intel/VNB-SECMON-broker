@@ -1,0 +1,5 @@
+This folder contains utility functions for plugin.
+
+- Uses Curl library to fetch all configurations from ems server.
+- Uses json library to parse the response.
+- Utility functions are used in add, update, store, delete configurations.

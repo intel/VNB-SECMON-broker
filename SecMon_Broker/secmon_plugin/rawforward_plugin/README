@@ -1,0 +1,8 @@
+Rawforward_plugin is a shared library which will receive packets from SecMon agent,
+apply filters on them and send the whole packet encapsulated inside UDP packet to collectors.
+
+It provides two options for encapsulation of packets
+1.UDP - whole packet is send with UDP header
+2.sflow - whole packet is send with sflow header
+
+

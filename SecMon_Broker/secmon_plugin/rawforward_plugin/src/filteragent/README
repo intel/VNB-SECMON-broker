@@ -1,0 +1,4 @@
+This folder contains filtering logic for traffic received.
+
+Uses hash table and murmur3 algorithm to speed up the searching of packets.
+

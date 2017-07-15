@@ -1,0 +1,34 @@
+=============================== version 1.3.1 ===========================================
+
+->	sflow plugin previously sending data to previous collector even after deleting association
+	so if you have deleted a association and added again than double entries were sended to the
+	collector. Now this Bug is resolved.
+
+->	Before agent ip and agent subid updation were not working but now they are working.
+
+->	Added conditional to enable and disable dpdk ring support
+
+
+=============================== version 1.2.0 ===========================================
+
+->	truncate to size was not added in the rawforward plugin. Might be not required.
+
+
+=============================== version 1.1.1 ===========================================
+
+->	Removed dpdk ring, now packets are directly processed without buffering them.
+
+->	Removed memory leak inside apply_filter function. There we were creating temporary
+	collector list and we were not freeing it previously.
+
+->	Removed memory leak in data path. Previously we created Tuple to store rule and we were
+	not freeing it.
+
+
+=============================== version 1.0.0 ===========================================
+
+->	merged forward and reverse hash entry to one hash entry. Now one hash entry is created
+	for both forward and reverse traffic.
+
+->	Replaced mutex with the futex in the sflow plugin.
+

@@ -1,0 +1,11 @@
+This folder contains Rawforward plugin's source code file which contains:
+
+Client 
+    To fetch plugin configurations from EMS server.
+Plugincore
+    To implement the actual rawforward protocol.
+Filteragent 
+    To parse the packet, filter & send packets to configured collectors.
+Server
+    Waits for notifications from handler for changes in configurations, 
+    process it & call client functions to handle it.

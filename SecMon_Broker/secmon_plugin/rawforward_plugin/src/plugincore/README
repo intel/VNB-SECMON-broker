@@ -1,0 +1,5 @@
+This folder contains core functionality for rawforward plugin.
+
+- Uses dpdk ring for packets storing.
+- Uses configurations fetched from EMS server to filter packets.
+- Receives packets from secmon_agent, parses, filters and sends them to collectors.

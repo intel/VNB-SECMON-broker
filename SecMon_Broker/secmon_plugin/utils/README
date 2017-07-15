@@ -1,0 +1,4 @@
+This folder contains common utility functions that are used by all plugins viz., 
+curl library handling to fetch configurations, generate url to fetch configurations 
+& get the response from server read IP & port of EMS server & scope for SecMon
+handle jiffies,  hash calculations,  IP related utility functions.

@@ -1,0 +1,10 @@
+This folder contains netflow plugin source code, which includes:
+client 
+    -To fetch plugin configurations from EMS server.
+plugincore
+    -To implement the actual netflow protocol.
+filteragent 
+    -To parse the packet, filter & send packets to configured collectors.
+server
+    -Waits for notifications from handler for changes in configurations, 
+    process it & call client functions to handle it.

@@ -1,0 +1,3 @@
+Netflow plugin is a shared library which will receive packets from secmon agent, 
+apply filters on them, process them as per netflow protocol and send them to 
+configured collectors. 

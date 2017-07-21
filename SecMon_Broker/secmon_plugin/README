@@ -1,11 +1,15 @@
+# README
+
+## Introduction
+Contains source of SecMon plugins. This is subcomponent of SecMon. For manual installation of this subcomponent inside SecMon refer `vnb-secmon-config/SecMon_Agent/Install.md`. And for quick installation of SecMon with SecMon Plugin use `vnb-main/vnb_components_installer.sh` with `secmon_agent` as a argument.
+
 SecMon plugin:
 --------------
 These plugins are dynamic libraries, which are loaded by SecMon Agent dynamically. These plugins filter received packets and forward the result to configured collectors. 
 
-It contains 3 plugins code 
+It contains 2 plugins code 
 	- rawforward, 
-	- netflow & 
-	- sflow plugin. 
+	- netflow
 
 Rawforward Plugin:
 ------------------
@@ -14,10 +18,6 @@ Rawforward Plugin support forwarding of packets towards the monitoring tools for
 NetFlow Plugin:
 ---------------
 NetFlow Plugin supports the Netflow version 9 as one of the traffic monitoring and filtering feature. It is a flow exporter and create the flow records for the traffic coming towards it. The created flow records is sent to the NetFlow Collector machine for further analysis. Any Netflow v9 compliant collector can be used to collect the created Netflow v9 flow records.
-
-Sflow Plugin:
--------------
-Sflow Plugin supports SFlow version 5 as a flow exporter. It encapsulates the monitored/filtered packets in SFlow datagram and send it to the SFlow Analyzer.
 
 All the three plugins supports 7 tuple filtering feature. The filtered traffic shall then forward towards monitoring tools machine. Following are the 7 tuple field for filtering;
 1.	Source IP Address
@@ -38,9 +38,6 @@ mk
 
 netflow_plugin
     contains netflow plugin code
- 
-sflow_plugin
-    contains sflow plugin code
 
 rawforward_plugin
     contains rawforward plugin code

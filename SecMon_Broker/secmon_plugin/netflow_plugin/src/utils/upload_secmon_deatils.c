@@ -76,6 +76,21 @@ void register_plugin(char *url , char *scope , char *server_ip)
         curl_easy_setopt(curl ,  CURLOPT_POSTFIELDS ,  data);
         curl_easy_setopt(curl ,  CURLOPT_URL , url);
 
+        /* CURL HTTPS configuration for using certificates */
+
+	/* disconnect if we can't validate server's cert */
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+
+	/* set the file with the certs vaildating the server */
+        curl_easy_setopt(curl, CURLOPT_CAINFO, CA_INFO);
+        curl_easy_setopt(curl, CURLOPT_CAPATH, CA_PATH);
+
+        curl_easy_setopt(curl, CURLOPT_SSLCERT, SECMON_CERT);
+	curl_easy_setopt(curl, CURLOPT_SSLKEY, SECMON_KEY);
+
+        curl_easy_setopt(curl, CURLOPT_KEYPASSWD, 0);
+
         res  =  curl_easy_perform(curl);
 
         /* Check for errors */ 

@@ -32,8 +32,8 @@ void generate_ems_base_url(char *address , char *root_url)
 {
     memset(root_url,'\0',ROOT_URL_SIZE);
 
-    /*generate "http://ip:port/v1.0/secmon" root url to fetch details*/     
-    strncpy(root_url , HTTP , strlen(HTTP));
+    /*generate "https://ip:port/v1.0/secmon" root url to fetch details*/     
+    strncpy(root_url , HTTPS , strlen(HTTPS));
     strncat(root_url , address , strlen(address));
     strncat(root_url , EXT , strlen(EXT));
     strncat(root_url , AGENT , strlen(AGENT)); 
@@ -75,7 +75,7 @@ char* get_conf_from_ems(char *root_url , char * url , int num,...)
     strncat(url , add_tags , strlen(add_tags));
 
     /*fetch contents from server according to url*/
-    response = HTTP_fetch_url(url);
+    response = HTTPS_fetch_url(url);
 
     return response;
 }
@@ -253,3 +253,99 @@ char* HTTP_fetch_url(char* url)
 }
 
 
+/** initialize curl ,  fetch url contents ,  
+ *  check its status ,  return contents if no error 
+ *  otherwise return error
+ *  @param url
+ *      contains url to fetch
+ *  @returns
+ *      ERROR   error in handling curl or fetching contents
+ *      content received in case of success 
+ *
+ */
+char* HTTPS_fetch_url(char* url)
+{
+    SECMON_DEBUG("url to fetch details=%s\n",url);
+    printf("url to fetch details=%s, line[%d]\n",url,__LINE__);
+    fflush(stderr);
+    CURLcode rcode;                                     /* curl result code */  
+
+    struct Curl_Fetch_St curl_fetch;                    /* curl fetch struct */
+    struct Curl_Fetch_St *cf =&curl_fetch;              /* pointer to struct */ 
+    long http_code;
+
+    /*initialize curl handle*/
+    if (ch == NULL)
+    {
+        ch = curl_easy_init();                              
+        if(ch==NULL)
+        {   
+            fprintf(stderr ,  "ERROR: Failed to create curl handle\n");
+
+            return ERROR;
+        }
+    }
+      curl_easy_setopt(ch, CURLOPT_VERBOSE, 1L);
+
+      /* disconnect if we can't validate server's cert */ 
+      curl_easy_setopt(ch, CURLOPT_SSL_VERIFYPEER, 1L);
+      curl_easy_setopt(ch, CURLOPT_SSL_VERIFYHOST, 0L);
+
+	 /* set the file with the certs vaildating the server */ 
+      curl_easy_setopt(ch, CURLOPT_CAINFO, CA_INFO);      
+      curl_easy_setopt(ch, CURLOPT_CAPATH, CA_PATH);
+       curl_easy_setopt(ch, CURLOPT_SSLCERT, SECMON_CERT);
+      curl_easy_setopt(ch, CURLOPT_SSLKEY, SECMON_KEY);
+
+      curl_easy_setopt(ch, CURLOPT_KEYPASSWD, 0);
+
+    /*fetch contents & get status code of fetch response*/
+    rcode  =  curl_fetch_url(ch ,  url ,  cf);
+
+    /*get http response*/
+    curl_easy_getinfo(ch ,  CURLINFO_RESPONSE_CODE ,  &http_code);
+    SECMON_DEBUG("http code: %lu\n", http_code);
+
+    /* check for error in executing curl */
+    if (rcode != CURLE_OK || cf->size < INVALID_RESPONSE_SIZE || http_code!=HTTP_SUCCESS_CODE)
+    {
+        fprintf(stderr ,  "ERROR: Failed to fetch url (%s) - curl said: %s\n",
+                url ,  curl_easy_strerror(rcode));
+
+        return ERROR;
+    }
+
+    /*No data */
+    if(cf->payload==NULL)
+    {
+        fprintf(stderr ,  "ERROR: Failed to populate payload\n");
+
+        if(cf->payload!=NULL)
+        {
+            free(cf->payload);
+            cf->payload = NULL;
+        }
+
+        return ERROR;
+    }
+
+    /*if url is invalid*/
+    else if(strstr((char *)cf->payload,"invalid URL")!=NULL)
+    {
+        fprintf(stderr ,  "ERROR: Invalid URL\n");
+
+        if(cf->payload!=NULL)
+        {
+            free(cf->payload);
+            cf->payload = NULL;
+	}
+	return ERROR;
+
+    }
+    else
+    {
+        return ((char *)cf->payload);
+    }
+
+
+}

@@ -22,7 +22,7 @@
 #include <rte_mbuf.h>
 
 #include <timehelper.h>
-/* #include "rawforward_sflow.h" */
+#include "rawforward_sflow.h"
 #include "utils.h"
 
 #ifdef SECMON_DEBUG_LOG
@@ -337,7 +337,7 @@ void send_to_tools(char *pkt ,  unsigned int hash_code ,  int packet_len)
     else
     {
       /* Add sflow header to the packet before sending it to tools machine.*/
-      /* write_sflow_pkt(pkt, packet_len, tools); */
+      write_sflow_pkt(pkt, packet_len, tools);
     }
 #ifdef SECMON_DEBUG_LOG
     if(unlikely((packets_sent > PKT_PRINT_DEBUG)==0))

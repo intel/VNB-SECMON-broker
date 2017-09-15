@@ -32,7 +32,7 @@
 #include <rte_mbuf.h>
 
 #include "rawforward.h"
-/* #include "rawforward_sflow.h" */ /* uncomment if needed sflow plugin */
+#include "rawforward_sflow.h" /* uncomment if needed sflow plugin */
 #include "utils.h"
 
 #define RAWFORWARD_RING "rawforward_ring"     /**< Rawforward Ring */
@@ -73,7 +73,7 @@ static struct rte_ring *r;
 int init()
 {
   SECMON_DEBUG("Entering init function...\n");
-  /* char *iface_ip = NULL; */
+  char *iface_ip = NULL;
 
 // start of use ring
 #ifdef USE_RING
@@ -125,20 +125,16 @@ int init()
   raw_rule_futex = (int *)malloc(sizeof(int));
   *raw_rule_futex = 1;
 
-  /*
   if ((iface_ip = strdup(get_interface_ip())) == NULL)
   {
     iface_ip  =  (char *)malloc(sizeof(char) * MAX_IP_LEN);
     strncpy(iface_ip,"0.0.0.0", MAX_IP_LEN);   
   }
-  */
 
   initialize_hash_table();
 
-  /*
   init_sflow(iface_ip);
   free(iface_ip);
-  */
 
   SECMON_DEBUG("Exiting init function...\n");
   return SUCCESS;
@@ -154,7 +150,7 @@ int init()
 int deinit()
 {
   SECMON_DEBUG("Entering deinit function\n");
-  /* deinit_sflow(); */
+  deinit_sflow();
   SECMON_DEBUG("Exiting deinit function\n");
   return SUCCESS;
 }

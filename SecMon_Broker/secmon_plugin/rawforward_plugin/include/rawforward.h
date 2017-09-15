@@ -56,11 +56,10 @@ inline bool hash_entry_available(uint32_t value);
 void send_to_tools(char *pkt ,  unsigned int hash_code ,  int pkt_len);
 void initialize_hash_table(void);
 
-/* uncomment if needed sflow plugin */
-/*
+
 char *get_interface_ip();
 void init_sflow(char *);
-*/
+
 void add_configurations(void);
 
 void *hash_timer(void *arg);
